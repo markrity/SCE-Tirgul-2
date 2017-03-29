@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 from app.models import User
 
-
+# TODO frwfrefje
 class LoginForm(Form):
     name = StringField('name', validators=[DataRequired()])
     first_name = StringField('first_name', validators=[DataRequired()])
