@@ -5,10 +5,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120), index=True, unique=False)
     last_name = db.Column(db.String(120), index=True, unique=False)
+    Is_Voted = db.Column(db.BOOLEAN)
 
-    def __init__(self, first_name, last_name):
+    def __init__(self,id, first_name, last_name,Is_Voted):
+        self.id= id
         self.first_name = first_name
         self.last_name = last_name
+        self.Is_Voted = Is_Voted
 
     @property
     def is_authenticated(self):
@@ -36,10 +39,12 @@ class Party(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=False)
     picture = db.Column(db.String(120), index=True, unique=False)
+    votes = db.Column(db.Integer,index=True,unique=False)
 
-    def __init__(self, name, picture):
+    def __init__(self, name, picture,votes):
         self.name = name
         self.picture = picture
+        self.votes = votes
 
     def get_id(self):
         try:
