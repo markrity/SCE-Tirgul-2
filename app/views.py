@@ -43,13 +43,37 @@ def login():
 
         ## Validate user
         first_name = request.form['first_name']
-        if first_name == "tomer":
-            user = User.query.filter_by(first_name=first_name).first()
-            login_user(user)  ## built in 'flask login' method that creates a user session
-            return redirect(url_for('index'))
-
+        last_name = request.form['last_name']
+        id = request.form['id']
+        id = int(id)
+        if id!=None and id!='':
+            user = User.query.filter_by(id=id).first()
+            if user != None:
+                if first_name != None and first_name!='':
+                    if first_name==user.first_name:
+                        if last_name!=None and last_name!='':
+                            if last_name==user.last_name:
+                                if user.Is_Voted!=True:
+                                    login_user(user)  ## built in 'flask login' method that creates a user session
+                                    return redirect(url_for('index'))
+                                else:
+                                    error=u'כבר בוצע הצבע'
+                            else:
+                                error = u'שפ משפחה לא תואם תז'
+                        else:
+                            error=u'יש להזין שם משפחה'
+                    else:
+                        error = u'שם פרטי לא תואם לתז'
+                else:
+                    error = u'יש להזין שם פרטי'
+            else:
+                error = u'לא קיים משתמש עם תז כזה'
         else: ##validation error
-            error = u'המצביע אינו מופיע בבסיס הנתונים'
+            error = u'יש להזין תז'
+
+
+
+
 
     return render_template('login.html',
                            error=error)
