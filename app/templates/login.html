@@ -19,6 +19,9 @@
         <label class="loginlabel" for="last_name">:שם משפחה</label>
          <input id="last_name" type="text" placeholder="שם משפחה" align="right" name="last_name" value="{{
           request.form.last_name }}">
+          <label class="loginlabel" for="id">:מספר ת''ז</label>
+         <input id="last_name" type="text" placeholder="מספר ת''ז" align="right" name="id" value="{{
+          request.form.id }}">
         <input class="btn btn-default" type="submit" value="כניסה">
       </form>
       {% if error %}
