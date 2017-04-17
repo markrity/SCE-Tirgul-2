@@ -46,7 +46,7 @@ class User(db.Model):
 
 class Party(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), index=True, unique=False)
+    name = db.Column(db.String(120), index=True, unique=True)
     picture = db.Column(db.String(120), index=True, unique=False)
     votes = db.Column(db.Integer,index=True,unique=False)
 
@@ -54,6 +54,7 @@ class Party(db.Model):
         self.name = name
         self.picture = picture
         self.votes = votes
+        self.session = None
 
     def get_id(self):
         try:

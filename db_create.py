@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from app.models import User, Party
 from app import db
+from app.models import User, Party
 
 db.create_all()
 db.session.commit()
@@ -29,4 +29,3 @@ db.session.add(max)
 db.session.add(edi)
 db.session.commit()
 users = User.query.all()
-print(users)
