@@ -2,12 +2,13 @@
 
 import os
 
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, redirect, url_for, request, g
 from flask import send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
+from wtforms import ValidationError
 
 from app import app, login_manager
-from .forms import LoginForm
+from app import db
 from .models import User, Party
 
 
@@ -15,18 +16,34 @@ from .models import User, Party
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def party_exists_validation(party_name):
+    party = Party.query.filter_by(name=party_name).count()  # party names are unique
+    if party != 1:  # if no party is found
+        raise ValidationError("Party does not exist")
+    return True
 
-def validateAndAdd(party_name):
-    ## implement me!
-    pass
 
+def vote_increment_by_party(party_name): # update Party model vote count after user successful voting
+    party = Party.query.filter_by(name=party_name).first()
+    party.votes = party.votes + 1
+    db.session.commit()
+
+
+def update_user_voted(user_id):  # update User model 'voted' field after user successful voting
+    user = User.query.filter_by(id=user_id).first()
+    user.voted = True
+    db.session.commit()
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     if request.method == 'POST':
-        validateAndAdd(request.form['party_name'])
+        # these 3 methods should be in transaction.
+        party_exists_validation(request.form['party_name'])
+        vote_increment_by_party(request.form['party_name'])
+        update_user_voted(current_user.id)
+        logout()
         return redirect(url_for('login'))
     g.user = current_user #global user parameter used by flask framwork
     parties = Party.query.all()
@@ -53,7 +70,7 @@ def login():
                     if first_name==user.first_name:
                         if last_name!=None and last_name!='':
                             if last_name==user.last_name:
-                                if user.Is_Voted!=True:
+                                if user.voted!=True:
                                     login_user(user)  ## built in 'flask login' method that creates a user session
                                     return redirect(url_for('index'))
                                 else:
@@ -99,3 +116,10 @@ def secret():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+@app.route('/vote', methods=['POST'])
+#@login_required
+def handle_data():
+    result = request.form
+    party = request.form['party_name']
+    #your code

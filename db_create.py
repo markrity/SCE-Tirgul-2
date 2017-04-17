@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from app.models import User, Party
 from app import db
+from app.models import User, Party
 
 db.drop_all() #added drop all so it wont duplicate anything every db_creation.
 db.create_all()
@@ -30,4 +30,4 @@ db.session.add(max)
 db.session.add(edi)
 db.session.commit()
 users = User.query.all()
-print users
+#print users
