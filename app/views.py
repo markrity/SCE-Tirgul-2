@@ -23,13 +23,13 @@ def party_exists_validation(party_name):
     return True
 
 
-def vote_increment_by_party(party_name):
+def vote_increment_by_party(party_name): # update Party model vote count after user successful voting
     party = Party.query.filter_by(name=party_name).first()
     party.votes = party.votes + 1
     db.session.commit()
 
 
-def update_user_voted(user_id):
+def update_user_voted(user_id):  # update User model 'voted' field after user successful voting
     user = User.query.filter_by(id=user_id).first()
     user.voted = True
     db.session.commit()
@@ -39,6 +39,7 @@ def update_user_voted(user_id):
 @login_required
 def index():
     if request.method == 'POST':
+        # these 3 methods should be in transaction.
         party_exists_validation(request.form['party_name'])
         vote_increment_by_party(request.form['party_name'])
         update_user_voted(current_user.id)
