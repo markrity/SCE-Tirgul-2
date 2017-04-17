@@ -7,8 +7,8 @@ class User(db.Model):
     last_name = db.Column(db.String(120), index=True, unique=False)
     voted = db.Column(db.BOOLEAN)
 
-    def __init__(self,id, first_name, last_name,voted):
-        self.id= id
+    def __init__(self, id, first_name, last_name, voted):
+        self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.voted = voted
@@ -33,6 +33,15 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.first_name
+
+    def __eq__(self, other):
+        return self.id == other.id and self.first_name == other.first_name and self.last_name == other.last_name
+
+    def __ne__(self, other):
+        result = self.__eq__(other)
+        if result is NotImplemented:
+            return result
+        return not result
 
 
 class Party(db.Model):
