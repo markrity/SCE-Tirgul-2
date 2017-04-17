@@ -6,8 +6,7 @@ from flask_wtf import CsrfProtect
 app = Flask(__name__)
 app.config.from_object('flask_config')
 db = SQLAlchemy(app)
-#app.secret_key = 'MY_KEY_IS_STRONG'
-#CsrfProtect(app)
+CsrfProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'

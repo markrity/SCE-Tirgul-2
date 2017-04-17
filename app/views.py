@@ -41,24 +41,25 @@ def login():
     error = None
     if request.method == 'POST':
         form = LoginForm(request.form)
-        ## Validate user csrf failes!
-        if form.validate_on_submit():
-            print("valid")
-        id_num = request.form['id_num']
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        logged_user = User(int(id_num), first_name, last_name, False);
-        user = User.query.filter_by(id = id_num).first()
-        if None is not user:
-            if user != logged_user:
-                error = 'שגיאה בפרטי המשתמש'
-            elif user.voted:
-                error = 'המשתמש כבר הצביע'
+        ## Validate user
+        if form.validate():
+            id_num = request.form['id_num']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            logged_user = User(int(id_num), first_name, last_name, False);
+            user = User.query.filter_by(id = id_num).first()
+            if None is not user:  # if the user exists check if the credentials match and that he didn't vote
+                if user != logged_user:
+                    error = 'שגיאה בפרטי המשתמש'
+                elif user.voted:
+                    error = 'המשתמש כבר הצביע'
+                else:
+                    login_user(user)
+                    return redirect(url_for('index'))
             else:
-                login_user(user)
-                return redirect(url_for('index'))
+                error = 'משתמש לא קיים במערכת'
         else:
-            error = 'משתמש לא קיים במערכת'
+            error = "טופס לא חוקי"
     return render_template('login.html', error=error)
 
 
