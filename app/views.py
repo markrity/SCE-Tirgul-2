@@ -17,8 +17,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def party_exists_validation(party_name):
-    party = Party.query.filter_by(name=party_name).count()
-    if party != 1:
+    party = Party.query.filter_by(name=party_name).count()  # party names are unique
+    if party != 1:  # if no party is found
         raise ValidationError("Party does not exist")
     return True
 
@@ -29,9 +29,8 @@ def vote_increment_by_party(party_name):
     db.session.commit()
 
 
-
-def update_user_voted(id):
-    user = User.query.filter_by(id=id).first()
+def update_user_voted(user_id):
+    user = User.query.filter_by(id=user_id).first()
     user.voted = True
     db.session.commit()
 
