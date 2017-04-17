@@ -3,7 +3,6 @@
 from app.models import User, Party
 from app import db
 
-db.drop_all() #added drop all so it wont duplicate anything every db_creation.
 db.create_all()
 db.session.commit()
 
@@ -11,7 +10,7 @@ admon = User(123456,'tomer', 'admon',False)
 tomer = User(1234567,u'תומר', u'אדמון',False)
 mark = User(321894925,'Mark','Davydov',False)
 max = User(316946540, 'Maxim','Zhuravsky',False)
-edi = User(307218214,'Eduard', 'Medvednic',False)
+edi = User(307218214,'Eduard', 'Medvednic',True)
 
 
 avoda = Party(u'העבודה', 'static/images/avoda.jpg',0)
@@ -30,4 +29,4 @@ db.session.add(max)
 db.session.add(edi)
 db.session.commit()
 users = User.query.all()
-print users
+print(users)

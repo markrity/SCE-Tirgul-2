@@ -40,43 +40,26 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
-
-        ## Validate user
+        form = LoginForm(request.form)
+        ## Validate user csrf failes!
+        if form.validate_on_submit():
+            print("valid")
+        id_num = request.form['id_num']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        id = request.form['id']
-        id = int(id)
-        if id!=None and id!='':
-            user = User.query.filter_by(id=id).first()
-            if user != None:
-                if first_name != None and first_name!='':
-                    if first_name==user.first_name:
-                        if last_name!=None and last_name!='':
-                            if last_name==user.last_name:
-                                if user.Is_Voted!=True:
-                                    login_user(user)  ## built in 'flask login' method that creates a user session
-                                    return redirect(url_for('index'))
-                                else:
-                                    error=u'כבר בוצע הצבע'
-                            else:
-                                error = u'שפ משפחה לא תואם תז'
-                        else:
-                            error=u'יש להזין שם משפחה'
-                    else:
-                        error = u'שם פרטי לא תואם לתז'
-                else:
-                    error = u'יש להזין שם פרטי'
+        logged_user = User(int(id_num), first_name, last_name, False);
+        user = User.query.filter_by(id = id_num).first()
+        if None is not user:
+            if user != logged_user:
+                error = 'שגיאה בפרטי המשתמש'
+            elif user.voted:
+                error = 'המשתמש כבר הצביע'
             else:
-                error = u'לא קיים משתמש עם תז כזה'
-        else: ##validation error
-            error = u'יש להזין תז'
-
-
-
-
-
-    return render_template('login.html',
-                           error=error)
+                login_user(user)
+                return redirect(url_for('index'))
+        else:
+            error = 'משתמש לא קיים במערכת'
+    return render_template('login.html', error=error)
 
 
 ## will handle the logout request
