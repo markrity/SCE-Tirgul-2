@@ -8,9 +8,9 @@ db.session.commit()
 
 admon = User(123456,'tomer', 'admon',False)
 tomer = User(1234567,u'תומר', u'אדמון',False)
-mark = User(123456,'Mark','Davydov',False)
-max = User(123456, 'Maxim','Zhuravsky',False)
-edi = User(123456,'Eduard', 'Medvednic',True)
+mark = User(12345621,'Mark','Davydov',False)
+max = User(12345631, 'Maxim','Zhuravsky',False)
+edi = User(12345654,'Eduard', 'Medvednic',True)
 
 
 avoda = Party(u'העבודה', 'static/images/avoda.jpg',0)
