@@ -2,12 +2,12 @@
 
 import os
 
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, redirect, url_for, request, g
 from flask import send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
+from wtforms import ValidationError
 
 from app import app, login_manager
-from .forms import LoginForm
 from .models import User, Party
 
 
@@ -15,10 +15,15 @@ from .models import User, Party
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def party_exists_validation(party_name):
+    party = Party.query.filter_by(name=party_name).count()
+    if party != 1:
+        raise ValidationError("Party does not exist")
+    return True
 
-def validateAndAdd(party_name):
-    ## implement me!
-    pass
+
+def vote_increment_by_party(party_name):
+
 
 
 @app.route('/', methods=['GET'])
@@ -26,7 +31,8 @@ def validateAndAdd(party_name):
 @login_required
 def index():
     if request.method == 'POST':
-        validateAndAdd(request.form['party_name'])
+        party_exists_validation(request.form['party_name'])
+        vote_increment_by_party(request.form['party_name'])
         return redirect(url_for('login'))
     g.user = current_user #global user parameter used by flask framwork
     parties = Party.query.all()
@@ -99,3 +105,10 @@ def secret():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+@app.route('/vote', methods=['POST'])
+#@login_required
+def handle_data():
+    result = request.form
+    party = request.form['party_name']
+    #your code
