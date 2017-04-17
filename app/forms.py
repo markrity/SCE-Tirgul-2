@@ -23,7 +23,3 @@ class LoginForm(Form):
     #         self.first_name.errors.append(gettext('This nickname is already in use. Please choose another one.'))
     #         return False
     #     return True
-
-
-class VoteForm(Form):
-    party_name = StringField('name', validators=[DataRequired()])

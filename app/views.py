@@ -8,6 +8,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from wtforms import ValidationError
 
 from app import app, login_manager
+from app import db
 from .models import User, Party
 
 
@@ -23,8 +24,16 @@ def party_exists_validation(party_name):
 
 
 def vote_increment_by_party(party_name):
+    party = Party.query.filter_by(name=party_name).first()
+    party.votes = party.votes + 1
+    db.session.commit()
 
 
+
+def update_user_voted(id):
+    user = User.query.filter_by(id=id).first()
+    user.voted = True
+    db.session.commit()
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -33,6 +42,8 @@ def index():
     if request.method == 'POST':
         party_exists_validation(request.form['party_name'])
         vote_increment_by_party(request.form['party_name'])
+        update_user_voted(current_user.id)
+        logout()
         return redirect(url_for('login'))
     g.user = current_user #global user parameter used by flask framwork
     parties = Party.query.all()
@@ -59,7 +70,7 @@ def login():
                     if first_name==user.first_name:
                         if last_name!=None and last_name!='':
                             if last_name==user.last_name:
-                                if user.Is_Voted!=True:
+                                if user.voted!=True:
                                     login_user(user)  ## built in 'flask login' method that creates a user session
                                     return redirect(url_for('index'))
                                 else:
