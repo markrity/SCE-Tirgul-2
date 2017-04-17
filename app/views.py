@@ -9,12 +9,14 @@ from wtforms import ValidationError
 
 from app import app, login_manager
 from app import db
+from app.forms import LoginForm
 from .models import User, Party
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 def party_exists_validation(party_name):
     party = Party.query.filter_by(name=party_name).count()  # party names are unique
@@ -23,7 +25,7 @@ def party_exists_validation(party_name):
     return True
 
 
-def vote_increment_by_party(party_name): # update Party model vote count after user successful voting
+def vote_increment_by_party(party_name):  # update Party model vote count after user successful voting
     party = Party.query.filter_by(name=party_name).first()
     party.votes = party.votes + 1
     db.session.commit()
@@ -33,6 +35,7 @@ def update_user_voted(user_id):  # update User model 'voted' field after user su
     user = User.query.filter_by(id=user_id).first()
     user.voted = True
     db.session.commit()
+
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -45,7 +48,7 @@ def index():
         update_user_voted(current_user.id)
         logout()
         return redirect(url_for('login'))
-    g.user = current_user #global user parameter used by flask framwork
+    g.user = current_user  # global user parameter used by flask framwork
     parties = Party.query.all()
     return render_template('index.html',
                            title='Home',
@@ -64,7 +67,7 @@ def login():
             first_name = request.form['first_name']
             last_name = request.form['last_name']
             logged_user = User(int(id_num), first_name, last_name, False);
-            user = User.query.filter_by(id = id_num).first()
+            user = User.query.filter_by(id=id_num).first()
             if None is not user:  # if the user exists check if the credentials match and that he didn't vote
                 if user != logged_user:
                     error = 'שגיאה בפרטי המשתמש'
@@ -84,7 +87,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user() ## built in 'flask login' method that deletes the user session
+    logout_user()  ## built in 'flask login' method that deletes the user session
     return redirect(url_for('index'))
 
 
@@ -101,9 +104,10 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
 
+
 @app.route('/vote', methods=['POST'])
-#@login_required
+# @login_required
 def handle_data():
     result = request.form
     party = request.form['party_name']
-    #your code
+    # your code

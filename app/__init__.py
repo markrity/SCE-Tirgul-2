@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_login import LoginManager
-from flask_wtf import CsrfProtect
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CsrfProtect
+
 from app.ErrorHandler import errors
+
 app = Flask(__name__)
 app.config.from_object('flask_config')
 db = SQLAlchemy(app)

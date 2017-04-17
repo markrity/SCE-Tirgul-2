@@ -48,9 +48,9 @@ class Party(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True)
     picture = db.Column(db.String(120), index=True, unique=False)
-    votes = db.Column(db.Integer,index=True,unique=False)
+    votes = db.Column(db.Integer, index=True, unique=False)
 
-    def __init__(self, name, picture,votes):
+    def __init__(self, name, picture, votes):
         self.name = name
         self.picture = picture
         self.votes = votes

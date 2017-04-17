@@ -1,33 +1,36 @@
 <html>
-  <head>
+<head>
     <title>Flask Intro - login page</title>
     <link rel='icon' href='favicon.ico' type='image/png'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="static/all.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-    <div class="container" align="center">
-        <div class="israel"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Emblem_of_Israel.svg/250px-Emblem_of_Israel.svg.png" height="130"> </img></div>
-      <h1>ברוכים הבאים למערכת הבחירות הממוחשבת</h1>
-      <h4>נא לבצע חיבור ראשוני למערכת</h4>
-      <br>
-      <form action="" method="post">
+</head>
+<body>
+<div class="container" align="center">
+    <div class="israel"><img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Emblem_of_Israel.svg/250px-Emblem_of_Israel.svg.png"
+            height="130"> </img></div>
+    <h1>ברוכים הבאים למערכת הבחירות הממוחשבת</h1>
+    <h4>נא לבצע חיבור ראשוני למערכת</h4>
+    <br>
+    <form action="" method="post">
         <label class="loginlabel" for="first_name">:שם פרטי</label>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input id="first_name" type="text" placeholder="שם פרטי" align="right" name="first_name" required="true" value="{{
-          request.form.first_name }}">
+        <input id="first_name" type="text" placeholder="שם פרטי" align="right" name="first_name" required="true"
+               value="{{ request.form.first_name }}">
         <label class="loginlabel" for="last_name">:שם משפחה</label>
-         <input id="last_name" type="text" placeholder="שם משפחה" align="right" name="last_name" required="true" value="{{
-          request.form.last_name }}">
-          <label class="loginlabel" for="id_num">:מספר ת''ז</label>
-         <input id="id_num" type="text" minlength="5" maxlength="9" placeholder="מספר ת''ז יש להכניס רק מספרים" align="right"
-                name="id_num" value="{{ request.form.id_num }}">
+        <input id="last_name" type="text" placeholder="שם משפחה" align="right" name="last_name" required="true"
+               value="{{ request.form.last_name }}">
+        <label class="loginlabel" for="id_num">:מספר ת''ז</label>
+        <input id="id_num" type="text" minlength="5" maxlength="9" placeholder="מספר ת''ז יש להכניס רק מספרים"
+               align="right"
+               name="id_num" value="{{ request.form.id_num }}">
         <input class="btn btn-default" type="submit" value="כניסה">
-      </form>
-      {% if error %}
+    </form>
+    {% if error %}
         <p class="error" style="color: red"><strong>שגיאה:</strong> {{ error }}</p>
-      {% endif %}
-    </div>
-  </body>
+    {% endif %}
+</div>
+</body>
 </html>
