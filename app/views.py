@@ -80,7 +80,7 @@ def login():
                 error = 'משתמש לא קיים במערכת'
         else:
             error = "טופס לא חוקי"
-    return render_template('login.html', error=error)
+    return render_template('login.html', error=error), 404
 
 
 ## will handle the logout request
