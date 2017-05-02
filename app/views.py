@@ -61,7 +61,7 @@ def login():
     error = None
     if request.method == 'POST':
         form = LoginForm(request.form)
-        ## Validate user
+        ## Validate user credentials
         if form.validate():
             id_num = request.form['id_num']
             first_name = request.form['first_name']
