@@ -48,7 +48,7 @@ def index():
         update_user_voted(current_user.id)
         logout()
         return redirect(url_for('login'))
-    g.user = current_user  # global user parameter used by flask framwork
+    g.user = current_user  # global user parameter used by flask framework
     parties = Party.query.all()
     return render_template('index.html',
                            title='Home',
