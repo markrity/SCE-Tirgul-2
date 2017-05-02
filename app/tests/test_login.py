@@ -1,14 +1,23 @@
-from app import app
-
+import os
 import unittest
 
+from app import app, db
+from app.models import User, Party
+from flask_config import basedir
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class LoginTestCase(unittest.TestCase):
     def setUp(self):
         self.app = app
         self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db')
         self.tester = self.app.test_client(self)
         self.tester.testing = True
+        db.init_app(self.app)
+        with self.app.app_context():
+            db.drop_all()
+            db.create_all()
+            self.populate_db()
 
     def test_manager_page(self):
         response = self.tester.get('/app/manager')
@@ -28,6 +37,25 @@ class LoginTestCase(unittest.TestCase):
         err = 'משתמש לא קיים במערכת'
         assert str.encode(err) in response.data
 
+    def test_valid_user(self):
+        credentials = {'first_name': 'tomer', 'last_name': 'admon', 'id_num': 123456}
+        response = self.tester.post('login', data=credentials,
+                                    follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def populate_db(self):
+        db.session.commit()
+
+        admon = User(123456, 'tomer', 'admon', False)
+        yarok = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
+        db.session.add(yarok)
+        db.session.add(admon)
+        db.session.commit()
+
+    def tearDown(self):
+        db.init_app(self.app)
+        with self.app.app_context():
+            db.drop_all()
 
 if __name__ == '__main__':
     unittest.main()
