@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint, jsonify
 
 errors = Blueprint('errors', __name__)
