@@ -66,7 +66,7 @@ def login():
             id_num = request.form['id_num']
             first_name = request.form['first_name']
             last_name = request.form['last_name']
-            logged_user = User(int(id_num), first_name, last_name, False);
+            logged_user = User(int(id_num), first_name, last_name, False)
             user = User.query.filter_by(id=id_num).first()
             if None is not user:  # if the user exists check if the credentials match and that he didn't vote
                 if user != logged_user:
