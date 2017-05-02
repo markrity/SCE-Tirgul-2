@@ -4,6 +4,7 @@ import unittest
 from app import app, db
 from app.models import User, Party
 from flask_config import basedir
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class LoginTestCase(unittest.TestCase):
@@ -40,16 +41,27 @@ class LoginTestCase(unittest.TestCase):
     def test_valid_user(self):
         credentials = {'first_name': 'tomer', 'last_name': 'admon', 'id_num': 123456}
         response = self.tester.post('login', data=credentials,
+                                    follow_redirects=False)
+        self.assertEqual(response.status_code, 302)
+        assert 'index' in response.location
+
+    def test_valid_user_already_voted(self):
+        credentials = {'first_name': 'max', 'last_name': 'zh', 'id_num': 1234567}
+        response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
+        err = 'המשתמש כבר הצביע'
+        assert str.encode(err) in response.data
 
     def populate_db(self):
         db.session.commit()
 
         admon = User(123456, 'tomer', 'admon', False)
+        max = User(1234567, 'max', 'zh', True)
         yarok = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
         db.session.add(yarok)
         db.session.add(admon)
+        db.session.add(max)
         db.session.commit()
 
     def tearDown(self):
