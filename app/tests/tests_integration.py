@@ -19,7 +19,7 @@ class AppTestCase(LiveServerTestCase):
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db') #'sqlite:///:memory:'
         db.init_app(self.app)
-        with self.app.app_context():
+        with self.app.app_context():  # app context
             db.drop_all()
             db.create_all()
             self.populate()
@@ -58,4 +58,4 @@ class AppTestCase(LiveServerTestCase):
 
 
 if (__name__ == '__main__'):
-unittest.main()
+    unittest.main()
