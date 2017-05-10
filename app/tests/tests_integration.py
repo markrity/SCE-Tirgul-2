@@ -56,6 +56,18 @@ class AppTestCase(LiveServerTestCase):
         print(self.driver.title)
         assert 'Home' in self.driver.title
 
+    def test_invalid_user_selenium(self):
+        self.first_name = self.driver.find_element_by_id('first_name')
+        self.last_name = self.driver.find_element_by_id('last_name')
+        self.id_num = self.driver.find_element_by_id('id_num')
+        self.login_button = self.driver.find_element_by_id('login_button')
+        self.first_name.send_keys('invalidFirstName')
+        self.last_name.send_keys('invalidLastName')
+        self.id_num.send_keys('invalidID')
+        self.login_button.submit()
+        print(self.driver.title)
+        assert 'Home' not in self.driver.title
+
 
 if (__name__ == '__main__'):
     unittest.main()
