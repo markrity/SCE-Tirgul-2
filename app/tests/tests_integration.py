@@ -43,7 +43,9 @@ class AppTestCase(LiveServerTestCase):
 
 
     def tearDown(self):
+        #hello
         self.driver.quit()
+
 
     def test_valid_user_selenium(self):
         self.valid_user = User(111111, 'firstName', 'lastName', False)
