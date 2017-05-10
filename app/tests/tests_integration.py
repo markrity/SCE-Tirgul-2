@@ -11,7 +11,6 @@ from app import app, db
 from app.models import User, Party
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 class AppTestCase(LiveServerTestCase):
     def create_app(self):
         self.app = app
