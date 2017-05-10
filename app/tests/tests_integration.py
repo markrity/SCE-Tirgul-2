@@ -10,6 +10,8 @@ from selenium import webdriver
 from app import app, db
 from app.models import User, Party
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 class AppTestCase(LiveServerTestCase):
     def create_app(self):
         self.app = app
@@ -17,7 +19,7 @@ class AppTestCase(LiveServerTestCase):
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.config['LIVESERVER_PORT'] = 8943
         self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db') #'sqlite:///:memory:'
         return self.app
 
     def setUp(self):
