@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import unittest
 import os
+import unittest
 
-from flask import Flask
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
 from app import app, db
 from app.models import User, Party
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 class AppTestCase(LiveServerTestCase):
     def create_app(self):
         self.app = app
@@ -17,27 +17,34 @@ class AppTestCase(LiveServerTestCase):
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.config['LIVESERVER_PORT'] = 8943
         self.app.config['WTF_CSRF_ENABLED'] = False
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db') #'sqlite:///:memory:'
+        db.init_app(self.app)
+        with self.app.app_context():
+            db.drop_all()
+            db.create_all()
+            self.populate()
+
         return self.app
+
+    def populate(self):
+        db.session.commit()
+        valid_user = User(111111, 'firstName', 'lastName', False)
+        valid_party = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
+        db.session.add(valid_party)
+        db.session.add(valid_user)
+        db.session.commit()
 
     def setUp(self):
         """Setup the test driver and create test users"""
         self.driver = webdriver.PhantomJS()
         self.driver.get(self.get_server_url())
-        assert 'Flask Intro - login page' in self.driver.title
-        db.session.commit()
-        db.drop_all()
-        db.create_all()
-        self.valid_user = User(111111, 'firstName', 'lastName', False)
-        self.valid_party = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
-        db.session.add(self.valid_party)
-        db.session.add(self.valid_user)
-        db.session.commit()
 
     def tearDown(self):
         self.driver.quit()
 
     def test_valid_user_selenium(self):
+        self.valid_user = User(111111, 'firstName', 'lastName', False)
+        self.valid_party = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
         self.first_name = self.driver.find_element_by_id('first_name')
         self.last_name = self.driver.find_element_by_id('last_name')
         self.id_num = self.driver.find_element_by_id('id_num')
@@ -51,4 +58,4 @@ class AppTestCase(LiveServerTestCase):
 
 
 if (__name__ == '__main__'):
-    unittest.main()
+unittest.main()
