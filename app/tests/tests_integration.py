@@ -43,7 +43,6 @@ class AppTestCase(LiveServerTestCase):
 
 
     def tearDown(self):
-        #hello
         self.driver.quit()
 
 
