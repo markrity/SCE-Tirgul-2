@@ -39,12 +39,8 @@ class AppTestCase(LiveServerTestCase):
         self.driver = webdriver.PhantomJS()
         self.driver.get(self.get_server_url())
 
-        #assert 'Flask Intro - login page' in self.driver.title
-
-
     def tearDown(self):
         self.driver.quit()
-
 
     def test_valid_user_selenium(self):
         self.valid_user = User(111111, 'firstName', 'lastName', False)
@@ -62,4 +58,4 @@ class AppTestCase(LiveServerTestCase):
 
 
 if (__name__ == '__main__'):
-    unittest.main()
+unittest.main()
