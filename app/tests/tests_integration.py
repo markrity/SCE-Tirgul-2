@@ -85,6 +85,5 @@ class AppTestCase(LiveServerTestCase):
         self.vote_button_yes.submit()
         assert 'Flask Intro' in self.driver.title
 
-
 if (__name__ == '__main__'):
     unittest.main()
