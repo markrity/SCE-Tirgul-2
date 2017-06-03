@@ -19,7 +19,7 @@ class AppTestCase(LiveServerTestCase):
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'test.db') #'sqlite:///:memory:'
         db.init_app(self.app)
-        with self.app.app_context():
+        with self.app.app_context():  # app context
             db.drop_all()
             db.create_all()
             self.populate()
@@ -53,9 +53,38 @@ class AppTestCase(LiveServerTestCase):
         self.last_name.send_keys(self.valid_user.last_name)
         self.id_num.send_keys(self.valid_user.id)
         self.login_button.submit()
-        print(self.driver.title)
         assert 'Home' in self.driver.title
+
+    def test_invalid_user_selenium(self):
+        self.first_name = self.driver.find_element_by_id('first_name')
+        self.last_name = self.driver.find_element_by_id('last_name')
+        self.id_num = self.driver.find_element_by_id('id_num')
+        self.login_button = self.driver.find_element_by_id('login_button')
+        self.first_name.send_keys('invalidFirstName')
+        self.last_name.send_keys('invalidLastName')
+        self.id_num.send_keys('invalidID')
+        self.login_button.submit()
+        assert 'Home' not in self.driver.title
+
+    def test_valid_user_vote_selenium(self):
+        self.valid_user = User(111111, 'firstName', 'lastName', False)
+        self.valid_party = Party(u'עלה ירוק', 'static/images/yarok.jpeg', 0)
+        self.first_name = self.driver.find_element_by_id('first_name')
+        self.last_name = self.driver.find_element_by_id('last_name')
+        self.id_num = self.driver.find_element_by_id('id_num')
+        self.login_button = self.driver.find_element_by_id('login_button')
+        self.vote_button = self.driver.find_element_by_id('vote_button')
+        self.vote_button_yes = self.driver.find_element_by_id('vote_button_yes')
+        self.valid_party_thumb = self.driver.find_element_by_id(u'עלה ירוק')
+        self.first_name.send_keys(self.valid_user.first_name)
+        self.last_name.send_keys(self.valid_user.last_name)
+        self.id_num.send_keys(self.valid_user.id)
+        self.login_button.submit()
+        self.valid_party_thumb.click()
+        self.vote_button.click()
+        self.vote_button_yes.submit()
+        assert 'Flask Intro' in self.driver.title
 
 
 if (__name__ == '__main__'):
-unittest.main()
+    unittest.main()
