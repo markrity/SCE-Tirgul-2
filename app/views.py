@@ -70,16 +70,16 @@ def login():
             user = User.query.filter_by(id=id_num).first()
             if None is not user:  # if the user exists check if the credentials match and that he didn't vote
                 if user != logged_user:
-                    error = 'שגיאה בפרטי המשתמש'.decode('utf-8')
+                    error = 'Error in user credentials'
                 elif user.voted:
-                    error = 'המשתמש כבר הצביע'.decode('utf-8')
+                    error = 'User already voted'
                 else:
                     login_user(user)
                     return redirect(url_for('index'))
             else:
-                error = 'משתמש לא קיים במערכת'.decode('utf-8')
+                error = 'User doesn\'t exist in the system'
         else:
-            error = "טופס לא חוקי".decode('utf-8')
+            error = "Invalid form"
     return render_template('login.html', error=error), 404
 
 

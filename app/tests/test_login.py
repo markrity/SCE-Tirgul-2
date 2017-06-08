@@ -28,7 +28,7 @@ class LoginTestCase(unittest.TestCase):
     def test_no_id_login(self):
         response = self.tester.post('login', data=dict(first_name='myname', last_name='mylastname'))
         self.assertEqual(response.status_code, 404)
-        err = 'טופס לא חוקי'
+        err = 'Invalid form'
         assert err.decode('utf-8') in response.data.decode('utf-8')
 
     def test_invalid_user(self):
@@ -36,7 +36,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
-        err = 'משתמש לא קיים במערכת'
+        err = 'User doesn\'t exist in the system'
         resp = response.data.decode('utf-8')
         assert err.decode('utf-8') in resp
 
@@ -52,7 +52,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
-        err = 'המשתמש כבר הצביע'
+        err = 'User already voted'
         assert err.decode('utf-8') in response.data.decode('utf-8')
 
     def populate_db(self):
