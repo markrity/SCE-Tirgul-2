@@ -8,6 +8,8 @@ __pycache__/
 
 #SQLite Database
 *.db
+#pyc
+*.pyc
 
 # Distribution / packaging
 .Python
