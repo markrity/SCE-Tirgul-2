@@ -1,22 +1,17 @@
-!#/bin/bash
+#!/bin/bash
 
-#make sudo everything
+#sudo
 sudo -s
 
 #update everything
 yum -y update && upgrade
 
-#install python & git
-yum -y install python git python-setuptools python-setuptools-devel
+#install devtools
+yum -y install centos-relese-SCL python-setuptools python-setuptools-devel python-devel
+yum -y groupinstall "Development Tools"
 
-#get pip
-#wget https://bootstrap.pypa.io/get-pip.py
 #install pip
-#python2.7 get-pip.py
-
-yum install 
 easy_install pip
-
 
 git clone https://github.com/markrity/SCE-Tirgul-2.git
 
@@ -28,7 +23,7 @@ pip install -r requirements.txt
 #stop sudo privileges
 exit
 
-#app run:
-
+#run app:
 python db_create.py
-python run.py
+export FLASK_APP=run.py
+flask run --host=0.0.0.0
