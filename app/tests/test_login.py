@@ -36,7 +36,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
-        err = 'User doesn\'t exist in the system'
+        err = 'User doesnt exist in the system'
         resp = response.data
         assert err in resp
 

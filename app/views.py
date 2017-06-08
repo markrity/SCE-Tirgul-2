@@ -77,7 +77,7 @@ def login():
                     login_user(user)
                     return redirect(url_for('index'))
             else:
-                error = 'User doesn\'t exist in the system'
+                error = 'User doesnt exist in the system'
         else:
             error = "Invalid form"
     return render_template('login.html', error=error), 404
