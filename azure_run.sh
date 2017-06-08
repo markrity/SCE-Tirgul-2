@@ -1,29 +1,24 @@
 #!/bin/bash
 
-#sudo
-sudo -s
+#update system
+sudo yum -y update && upgrade
 
-#update everything
-yum -y update && upgrade
-
-#install devtools
-yum -y install git-all centos-relese-SCL python-setuptools python-setuptools-devel python-devel
-yum -y groupinstall "Development Tools"
+#install git python and devtools
+sudo yum -y install git-all centos-relese-SCL python-setuptools python-setuptools-devel python-devel
+sudo yum -y groupinstall "Development Tools"
 
 #install pip
-easy_install pip
+sudo easy_install pip
 
+#clone proejct repo
 git clone https://github.com/markrity/SCE-Tirgul-2.git
-
 cd SCE-Tirgul-2
 
 #install our app requirements
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 
-#stop sudo privileges
-exit
-
-#run app:
+#create db
 python db_create.py
+#run app
 export FLASK_APP=run.py
 flask run --host=0.0.0.0
