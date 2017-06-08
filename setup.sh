@@ -4,10 +4,8 @@
 sudo yum -y update && upgrade
 
 #install git python and devtools
-sudo yum -y install git-all centos-relese-SCL python-setuptools python-setuptools-devel python-devel yum-utils python36u-devel
-sudo yum -y groupinstall "Development Tools" development
-sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-sudo yum -y install python36u
+sudo yum -y install git-all centos-relese-SCL python-setuptools python-setuptools-devel python-devel
+sudo yum -y groupinstall "Development Tools"
 
 #install pip
 sudo easy_install pip
