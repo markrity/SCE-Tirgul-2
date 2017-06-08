@@ -7,7 +7,7 @@ sudo -s
 yum -y update && upgrade
 
 #install devtools
-yum -y install centos-relese-SCL python-setuptools python-setuptools-devel python-devel
+yum -y install git-all centos-relese-SCL python-setuptools python-setuptools-devel python-devel
 yum -y groupinstall "Development Tools"
 
 #install pip
