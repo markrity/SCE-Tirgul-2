@@ -20,4 +20,4 @@ sudo pip install -r requirements.txt
 #create db
 python db_create.py
 #run app
-python run.py &
+nohup python run.py > ../log.txt 2>&1 </dev/null &
