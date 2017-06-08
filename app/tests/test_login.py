@@ -28,7 +28,7 @@ class LoginTestCase(unittest.TestCase):
     def test_no_id_login(self):
         response = self.tester.post('login', data=dict(first_name='myname', last_name='mylastname'))
         self.assertEqual(response.status_code, 404)
-        err = bytes("Invalid form", "utf-8")
+        err = "Invalid form"
         assert err in response.data
 
     def test_invalid_user(self):
@@ -36,7 +36,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
-        err = bytes("User doesnt exist in the system", "utf-8")
+        err = "User doesnt exist in the system"
         resp = response.data
         assert err in resp
 
@@ -52,7 +52,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=credentials,
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
-        err = bytes("User already voted", "utf-8")
+        err = "User already voted"
         assert err in response.data
 
     def populate_db(self):
