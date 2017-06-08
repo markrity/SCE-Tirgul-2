@@ -29,7 +29,7 @@ class LoginTestCase(unittest.TestCase):
         response = self.tester.post('login', data=dict(first_name='myname', last_name='mylastname'))
         self.assertEqual(response.status_code, 404)
         err = 'Invalid form'
-        assert err.decode('utf-8') in response.data.decode('utf-8')
+        assert err in response.data.decode('utf-8')
 
     def test_invalid_user(self):
         credentials = {'first_name': 'unexisting', 'last_name': 'lastname', 'id_num': 1234}
@@ -38,7 +38,7 @@ class LoginTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         err = 'User doesn\'t exist in the system'
         resp = response.data.decode('utf-8')
-        assert err.decode('utf-8') in resp
+        assert err in resp
 
     def test_valid_user(self):
         credentials = {'first_name': 'tomer', 'last_name': 'admon', 'id_num': 123456}
@@ -53,7 +53,7 @@ class LoginTestCase(unittest.TestCase):
                                     follow_redirects=True)
         self.assertEqual(response.status_code, 404)
         err = 'User already voted'
-        assert err.decode('utf-8') in response.data.decode('utf-8')
+        assert err in response.data.decode('utf-8')
 
     def populate_db(self):
         db.session.commit()
