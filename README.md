@@ -6,7 +6,7 @@
 ## Create database
 Executing this python file will create a new file called 'app.db' which is a SQLite db with some 
 ```cmd
-python db_crete.py
+python db_create.py
 ```
 
 ## Run the applicaiton
