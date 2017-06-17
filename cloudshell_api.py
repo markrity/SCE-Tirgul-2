@@ -22,4 +22,8 @@ if len(my_resource) > 1:
 if len(my_resource) == 0:
     raise Exception('There are no deployed application in the sandbox')
 
-print (my_resource[0]) 
+print (my_resource[0].Availability)
+print (my_resource[0].Name) 
+print (my_resource[0].FullAddress) 
+print (my_resource[0].FolderFullPath )
+print (my_resource[0].Shared)
