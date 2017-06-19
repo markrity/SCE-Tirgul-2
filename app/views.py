@@ -80,7 +80,10 @@ def login():
                 error = 'User doesnt exist in the system'
         else:
             error = "Invalid form"
-    return render_template('login.html', error=error), 404
+    if error is not None:
+        return render_template('login.html', error=error), 404
+
+    return render_template('login.html', error=error), 200
 
 
 ## will handle the logout request

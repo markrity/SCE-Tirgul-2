@@ -1,5 +1,6 @@
-from cloudshell.api.cloudshell_api import CloudShellAPISession
 import sys
+
+from cloudshell.api.cloudshell_api import CloudShellAPISession
 
 server_ip = sys.argv[1] ##'172.31.22.239' ## This is the internal IP of our CloudShell in AWS
 reservation_id = sys.argv[2]
@@ -22,8 +23,4 @@ if len(my_resource) > 1:
 if len(my_resource) == 0:
     raise Exception('There are no deployed application in the sandbox')
 
-print (my_resource[0].Availability)
-print (my_resource[0].Name) 
 print (my_resource[0].FullAddress) 
-print (my_resource[0].FolderFullPath )
-print (my_resource[0].Shared)
