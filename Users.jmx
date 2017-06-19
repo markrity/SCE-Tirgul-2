@@ -31,7 +31,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${__P(ServerIP,localhost)}</stringProp>
-          <stringProp name="HTTPSampler.port">${__P(ServerPORT,5000)}</stringProp>
+          <stringProp name="HTTPSampler.port">${__P(ServerPORT,80)}</stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
