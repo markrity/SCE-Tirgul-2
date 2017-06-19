@@ -1,5 +1,5 @@
 import sys
-
+from __future__ import print_function
 from cloudshell.api.cloudshell_api import CloudShellAPISession
 
 server_ip = sys.argv[1] ##'172.31.22.239' ## This is the internal IP of our CloudShell in AWS
