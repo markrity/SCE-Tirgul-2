@@ -1,5 +1,5 @@
 import sys
-from __future__ import print_function
+
 from cloudshell.api.cloudshell_api import CloudShellAPISession
 
 server_ip = sys.argv[1] ##'172.31.22.239' ## This is the internal IP of our CloudShell in AWS
@@ -23,4 +23,4 @@ if len(my_resource) > 1:
 if len(my_resource) == 0:
     raise Exception('There are no deployed application in the sandbox')
 
-print (my_resource[0].FullAddress, end='') 
+sys.stdout.write(my_resource[0].FullAddress) 
