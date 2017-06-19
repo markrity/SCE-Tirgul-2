@@ -23,4 +23,8 @@ if len(my_resource) > 1:
 if len(my_resource) == 0:
     raise Exception('There are no deployed application in the sandbox')
 
-print (my_resource[0].FullAddress) 
+resource_att = session.GetResourceDetails(my_resource[0].Name).ResourceAttributes
+for item in resource_att:
+    if item.Name == 'Public IP':
+	sys.stdout.write(item.Value)
+        break
